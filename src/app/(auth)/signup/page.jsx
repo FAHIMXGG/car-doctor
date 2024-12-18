@@ -4,8 +4,14 @@ import Link from 'next/link';
 import React from 'react';
 
 const signup = () => {
-    const handleSignUp = async () =>{
-
+    const handleSignUp = async (event) =>{
+        event.preventDefault();
+        const newUSer = {
+            name: event.target.name.value,
+            email: event.target.email.value,
+            password: event.target.password.value
+        }
+        console.log(newUSer);
     }
     return (
         <div className="container px-24 mx-auto py-24">

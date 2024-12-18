@@ -80,6 +80,7 @@ const Navbar = () => {
                         <CiShoppingCart  className='text-xl '/>
                         <CiSearch  className='text-xl '/>
                         <Link href='/' className="btn btn-outline btn-primary px-8">Appointment</Link>
+                        <Link href='/login' className="btn  btn-primary px-8">Login</Link>
                     </div>
                 </div>
             </div>
