@@ -1,3 +1,5 @@
+"use client"
+import { signOut, useSession } from 'next-auth/react';
 import Image from 'next/image';
 import Link from 'next/link';
 import React from 'react';
@@ -5,28 +7,8 @@ import { CiShoppingCart } from "react-icons/ci";
 import { CiSearch } from "react-icons/ci";
 
 const Navbar = () => {
-    const navItems = [
-        {
-            title: 'Home',
-            Path: '/'
-        },
-        {
-            title: 'About',
-            Path: '/about'
-        },
-        {
-            title: 'Services',
-            Path: '/services'
-        },
-        {
-            title: 'Blog',
-            Path: '/blog'
-        },
-        {
-            title: 'Contacts',
-            Path: '/contacts'
-        },
-    ]
+    const session = useSession()
+    console.log(session)
     return (
         <div className='bg-base-100 text-slate-900'>
             <div className="navbar container mx-auto">
@@ -80,12 +62,35 @@ const Navbar = () => {
                         <CiShoppingCart  className='text-xl '/>
                         <CiSearch  className='text-xl '/>
                         <Link href='/' className="btn btn-outline btn-primary px-8">Appointment</Link>
-                        <Link href='/login' className="btn  btn-primary px-8">Login</Link>
+                        { !session.data ? 
+                            <Link href='/login' className="btn  btn-primary px-8">Login</Link> : <button className='btn  btn-primary px-8' onClick={()=> signOut()}>Logout</button>
+                        }
                     </div>
                 </div>
             </div>
         </div>
     );
 };
-
+const navItems = [
+    {
+        title: 'Home',
+        Path: '/'
+    },
+    {
+        title: 'About',
+        Path: '/about'
+    },
+    {
+        title: 'Services',
+        Path: '/services'
+    },
+    {
+        title: 'Blog',
+        Path: '/blog'
+    },
+    {
+        title: 'Contacts',
+        Path: '/contacts'
+    },
+]
 export default Navbar;

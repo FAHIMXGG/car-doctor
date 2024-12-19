@@ -3,10 +3,24 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import React from 'react';
+import {signIn} from 'next-auth/react';
+import { useRouter } from 'next/navigation';
 
 const Login = () => {
-    const handleLogin = async() => {
-        ss
+    const router = useRouter();
+    const handleLogin = async(event) => {
+        event.preventDefault();
+        const email = event.target.email.value
+        const password = event.target.password.value
+        const res = await signIn('credentials',{
+            email,
+            password,
+            redirect : false
+        })
+        //console.log(res)
+        if (res.status === 200){
+            router.push('/')
+        }
     }
     return (
         <div className="container px-24 mx-auto py-24">
