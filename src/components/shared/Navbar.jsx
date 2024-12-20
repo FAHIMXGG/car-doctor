@@ -59,11 +59,21 @@ const Navbar = () => {
                 </div>
                 <div className="navbar-end">
                     <div className='flex space-x-3 items-center'>
-                        <CiShoppingCart  className='text-xl '/>
-                        <CiSearch  className='text-xl '/>
+                        <CiShoppingCart className='text-xl ' />
+                        <CiSearch className='text-xl ' />
                         <Link href='/' className="btn btn-outline btn-primary px-8">Appointment</Link>
-                        { !session.data ? 
-                            <Link href='/login' className="btn  btn-primary px-8">Login</Link> : <button className='btn  btn-primary px-8' onClick={()=> signOut()}>Logout</button>
+                        {
+                            session?.status === 'loading' && 
+                            <h6>Loading...</h6>
+                        }
+                        {
+                            session.data ? <div>
+                                <Image className='rounded-3xl' alt={session?.data?.user?.name} src={session?.data?.user?.image} height={50} width={50} />
+                            </div> : <div></div>
+                        }
+
+                        {!session.data ?
+                            <Link href='/login' className="btn  btn-primary px-8">Login</Link> : <button className='btn  btn-primary px-8' onClick={() => signOut()}>Logout</button>
                         }
                     </div>
                 </div>
