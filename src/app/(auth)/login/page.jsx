@@ -5,6 +5,7 @@ import Link from 'next/link';
 import React from 'react';
 import {signIn} from 'next-auth/react';
 import { useRouter } from 'next/navigation';
+import SocialSignin from '@/components/shared/SocialSignin';
 
 const Login = () => {
     const router = useRouter();
@@ -56,10 +57,11 @@ const Login = () => {
                         <br />
                         <button
                             type="submit"
-                            className="w-full btn btn-primary mt-12 text-lg"
+                            className="w-full btn btn-primary mt-12 text-lg mb-5"
                         >
                             Sign In
                         </button>
+                        <SocialSignin/>
                     </form>
                     <div>
                         <h6 className="my-12 text-center">or sign in with</h6>
