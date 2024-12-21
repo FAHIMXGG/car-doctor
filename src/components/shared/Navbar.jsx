@@ -67,9 +67,9 @@ const Navbar = () => {
                             <h6>Loading...</h6>
                         }
                         {
-                            session.data ? <div>
+                            session?.status  === 'authenticated' &&
                                 <Image className='rounded-3xl' alt={session?.data?.user?.name} src={session?.data?.user?.image} height={50} width={50} />
-                            </div> : <div></div>
+                            
                         }
 
                         {!session.data ?
