@@ -15,8 +15,11 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata = {
-  title: "Car Doctor ",
-  description: "Car Fixer",
+  title:{ 
+    default : "Car Doctor ",
+    template: "%s | Car Fixer "
+  },
+  description: "The Car Fixer",
 };
 
 export default function RootLayout({ children }) {
