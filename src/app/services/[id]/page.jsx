@@ -9,8 +9,9 @@ export const metadata = {
 }
 
 const Page = async ({params}) => {
-    
-    const details = await getServicesDetails(params.id)
+
+  const { id } = await params;
+    const details = await getServicesDetails(id)
     const {_id, title, description, img, price, facility} = details.service;
     return (
         <div className="w-11/12 mx-auto my-10">
