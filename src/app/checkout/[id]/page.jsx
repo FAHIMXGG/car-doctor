@@ -27,8 +27,14 @@ const Checkout = ({ params }) => {
         price : price,
     }
 
-    
-
+    const res = await fetch('http://localhost:3000/checkout/api/new-booking', {
+      method: 'POST',
+      body: JSON.stringify(newBooking),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
+    console.log(res)
   };
 
   useEffect(() => {

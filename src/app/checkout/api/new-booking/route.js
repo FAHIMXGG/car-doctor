@@ -1,13 +1,14 @@
-import { connectDB } from "@/lib/connectDB"
+import { connectDB } from "@/lib/connectDB";
 
 export const POST = async (request) => {
-    const booking = await request.json();
-    const db =await connectDB()
-    const bookingsCollections = db.collection('bookings')
-    try {
-        const newBooking = await bookingsCollections.insertOne(booking)
-        return Response.json({service})
-    } catch (error) {
-        console.log(error)
-    }
-}
+  const newBooking = await request.json();
+  const db = await connectDB();
+  const bookingsCollection = db.collection("bookings");
+
+  try {
+    const res = await bookingsCollection.insertOne(newBooking);
+    return Response.json({ message: "Booked Successfully" }, { status: 200 });
+  } catch (error) {
+    return Response.json({ message: "Something Went Wrong" }, { status: 400 });
+  }
+};
