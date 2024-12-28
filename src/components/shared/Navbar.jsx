@@ -95,6 +95,10 @@ const navItems = [
         Path: '/services'
     },
     {
+        title: 'My Bookings',
+        Path: '/my_bookings'
+    },
+    {
         title: 'Blog',
         Path: '/blog'
     },
