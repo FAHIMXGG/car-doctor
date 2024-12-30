@@ -6,11 +6,13 @@ import React, { useEffect, useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
 
 
-const Checkout = ({ params }) => {
+const Checkout =({ params }) => {
+  
   const { data } = useSession();
   const [service, setService] = useState({});
   const loadService = async () => {
-    const details = await getServicesDetails(params.id);
+    const { id } = await params;
+    const details = await getServicesDetails(id);
     setService(details.service);
   };
   const { _id, title, description, img, price, facility } = service || {};
