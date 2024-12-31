@@ -8,6 +8,7 @@ export const GET = async () => {
         const services = await servicesCollections.find().toArray()
         return NextResponse.json({services})
     } catch (error) {
-        console.log(error)
+        //console.log(error)
+        return NextResponse.json({message : "No data Found", error})
     }
 }

@@ -1,31 +1,37 @@
+"use client";
+import Image from "next/image";
+import Link from "next/link";
+import React, { Suspense } from "react";
+import { signIn } from "next-auth/react";
+import { useRouter, useSearchParams } from "next/navigation";
+import SocialSignin from "@/components/shared/SocialSignin";
 
-"use client"
-import Image from 'next/image';
-import Link from 'next/link';
-import React from 'react';
-import {signIn} from 'next-auth/react';
-import { useRouter, useSearchParams } from 'next/navigation';
-import SocialSignin from '@/components/shared/SocialSignin';
+const SearchParamsWrapper = ({ children }) => {
+    const searchParams = useSearchParams();
+    const redirectPath = searchParams?.get("redirect") || "/";
+    return children(redirectPath);
+};
 
 const Login = () => {
     const router = useRouter();
-    const searchParams = useSearchParams();
-    const path = searchParams.get('redirect')
-    const handleLogin = async(event) => {
+
+    const handleLogin = async (event, redirectPath) => {
         event.preventDefault();
-        const email = event.target.email.value
-        const password = event.target.password.value
-        const res = await signIn('credentials',{
+        const email = event.target.email.value;
+        const password = event.target.password.value;
+
+        const res = await signIn("credentials", {
             email,
             password,
-            redirect : true,
-            callbackUrl : path ? path : '/'
-        })
-        //console.log(res)
-        if (res.status === 200){
-            router.push('/')
+            redirect: true,
+            callbackUrl: redirectPath,
+        });
+
+        if (res?.status === 200) {
+            router.push(redirectPath);
         }
-    }
+    };
+
     return (
         <div className="container px-24 mx-auto py-24">
             <div className="grid grid-cols-2 gap-12 items-center">
@@ -41,37 +47,45 @@ const Login = () => {
                     <h6 className="text-3xl font-semibold text-primary text-center mb-12">
                         Sign In
                     </h6>
-                    <form onSubmit={handleLogin} action="">
-                        <label htmlFor="email">Email</label> <br />
-                        <input
-                            type="text"
-                            name="email"
-                            placeholder="your email"
-                            className="mt-3 w-full input input-bordered"
-                        />
-                        <br /> <br />
-                        <label htmlFor="password">Password</label> <br />
-                        <input
-                            type="password"
-                            name="password"
-                            placeholder="your password"
-                            className="w-full mt-3 input input-bordered"
-                        />
-                        <br />
-                        <button
-                            type="submit"
-                            className="w-full btn btn-primary mt-12 text-lg mb-5"
-                        >
-                            Sign In
-                        </button>
-                        <SocialSignin/>
-                    </form>
+                    <Suspense fallback={<div>Loading...</div>}>
+                        <SearchParamsWrapper>
+                            {(redirectPath) => (
+                                <form
+                                    onSubmit={(event) => handleLogin(event, redirectPath)}
+                                    action=""
+                                >
+                                    <label htmlFor="email">Email</label> <br />
+                                    <input
+                                        type="text"
+                                        name="email"
+                                        placeholder="your email"
+                                        className="mt-3 w-full input input-bordered"
+                                    />
+                                    <br /> <br />
+                                    <label htmlFor="password">Password</label> <br />
+                                    <input
+                                        type="password"
+                                        name="password"
+                                        placeholder="your password"
+                                        className="w-full mt-3 input input-bordered"
+                                    />
+                                    <br />
+                                    <button
+                                        type="submit"
+                                        className="w-full btn btn-primary mt-12 text-lg mb-5"
+                                    >
+                                        Sign In
+                                    </button>
+                                    <SocialSignin />
+                                </form>
+                            )}
+                        </SearchParamsWrapper>
+                    </Suspense>
                     <div>
                         <h6 className="my-12 text-center">or sign in with</h6>
-                        {/* <SocialSignin /> */}
                         <h6 className="my-12 text-center">
-                            not have account ?{" "}
-                            <Link className="text-primary font-semibold" href={"/signup"}>
+                            Don&apos;t have an account?{" "}
+                            <Link className="text-primary font-semibold" href="/signup">
                                 Sign Up
                             </Link>
                         </h6>

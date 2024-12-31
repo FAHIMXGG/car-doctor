@@ -9,6 +9,6 @@ export const GET = async () => {
         const res = await servicesCollections.insertMany(services)
         return Response.json({message : "Seeded services"})
     } catch (error) {
-        console.log(error)
+        return Response.json({message : "No services"})
     }
 }
