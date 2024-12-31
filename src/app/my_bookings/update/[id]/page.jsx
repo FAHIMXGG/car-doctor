@@ -13,7 +13,7 @@ const Page = ({ params }) => {
     const { id } = await params;
     
     const bookingDetail = await fetch(
-      `http://localhost:3000/my_bookings/api/booking/${id}`
+      `${process.env.NEXT_PUBLIC_BASE_URL}/my_bookings/api/booking/${id}`
     );
     const data = await bookingDetail.json();
     
@@ -29,7 +29,7 @@ const Page = ({ params }) => {
       address: event.target.address.value,
     };
     const resp = await fetch(
-      `http://localhost:3000/my_bookings/api/booking/${id}`,
+      `${process.env.NEXT_PUBLIC_BASE_URL}my_bookings/api/booking/${id}`,
       {
         method: "PATCH",
         body: JSON.stringify(updatedBooking),
