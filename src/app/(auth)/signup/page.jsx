@@ -12,7 +12,7 @@ const signup = () => {
             email: event.target.email.value,
             password: event.target.password.value
         }
-        const res = await fetch ("http://localhost:3000/signup/api",{
+        const res = await fetch (`${process.env.NEXT_PUBLIC_BASE_URL}/signup/api`,{
             method: 'POST',
             body: JSON.stringify(newUSer),
             headers: {
