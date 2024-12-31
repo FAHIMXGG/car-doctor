@@ -9,7 +9,7 @@ const page = () => {
 
     const session = useSession();
   const [bookings, setBooking] = useState([]);
-  console.log(bookings)
+  //console.log(bookings)
   const loadData = async () => {
     const resp = await fetch(
       `http://localhost:3000/my_bookings/api/${session?.data?.user?.email}`
@@ -25,6 +25,7 @@ const page = () => {
       }
     );
     const resp = await deleted.json();
+    
     if(resp?.response?.deletedCount >  0) {
       toast.success(resp?.message)
       loadData();

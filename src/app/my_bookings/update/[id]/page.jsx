@@ -38,6 +38,7 @@ const Page = ({ params }) => {
         },
       }
     );
+    //console.log(resp.status)
     if(resp.status === 200) {
       toast.success("Updated Successfully")
     }
@@ -58,7 +59,7 @@ const Page = ({ params }) => {
           height={1080}
           style={{ width: "90vw" }}
         /> */}
-        <div className="absolute h-full left-0 top-0 flex items-center justify-center bg-gradient-to-r from-[#151515] to-[rgba(21, 21, 21, 0)] ">
+        <div className="absolute h-full left-0 top-0 flex items-center justify-center bg-gradient-to-r from-[#151515] to-[rgba(21, 21, 21, 0)] w-full">
           <h1 className="text-white text-3xl font-bold flex justify-center items-center ml-8">
             Update Booking
           </h1>

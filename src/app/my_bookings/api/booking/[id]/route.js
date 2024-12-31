@@ -20,15 +20,13 @@ export const PATCH = async (request, { params }) => {
   const db = await connectDB();
   const { id } = await params;
   const bookingsCollection = db.collection("bookings");
-  const {date, phone, address} = await request.json()
+  const updateDoc = await request.json()
   try {
     const resp = await bookingsCollection.updateOne(
       { _id: new ObjectId(id) },
       {
         $set: {
-          date,
-          phone,
-          address,
+          ...updateDoc
         }
       },
       {

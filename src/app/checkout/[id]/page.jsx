@@ -5,16 +5,31 @@ import Image from "next/image";
 import React, { useEffect, useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
 
-
-const Checkout =({ params }) => {
-  
+const Checkout = ({ params }) => {
+  const [id, setId] = useState(null);
   const { data } = useSession();
   const [service, setService] = useState({});
-  const loadService = async () => {
-    const { id } = await params;
-    const details = await getServicesDetails(id);
-    setService(details.service);
-  };
+
+  // Unwrap params if it's a Promise
+  useEffect(() => {
+    const unwrapParams = async () => {
+      const resolvedParams = await params; // Await if `params` is a Promise
+      setId(resolvedParams.id); // Set the ID
+    };
+    unwrapParams();
+  }, [params]);
+
+  // Fetch service details
+  useEffect(() => {
+    const loadService = async () => {
+      if (id) {
+        const details = await getServicesDetails(id);
+        setService(details.service);
+      }
+    };
+    loadService();
+  }, [id]);
+
   const { _id, title, description, img, price, facility } = service || {};
 
   const handleBooking = async (event) => {
@@ -28,32 +43,27 @@ const Checkout =({ params }) => {
       serviceTitle: title,
       serviceID: _id,
       price: price,
-    }
+    };
 
-    const res = await fetch('http://localhost:3000/checkout/api/new-booking', {
-      method: 'POST',
+    const res = await fetch("/checkout/api/new-booking", {
+      method: "POST",
       body: JSON.stringify(newBooking),
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
       },
-    })
-    //console.log(res)
-    const response = await res?.json()
-    toast.success(response?.message)
-    event.target.reset()
+    });
+    const response = await res.json();
+    toast.success(response?.message);
+    event.target.reset();
   };
 
-  useEffect(() => {
-    loadService()
-  }, [params.id])
-
   return (
-    <div className="container mx-auto" >
+    <div className="container mx-auto">
       <ToastContainer />
-      <div className="relative  h-72">
+      <div className="relative h-72">
         <Image
           className="absolute h-72 w-full left-0 top-0 object-cover"
-          src={img}
+          src={img || "/default-image.jpg"} // Fallback if `img` is not loaded
           alt="service"
           width={1920}
           height={1080}
@@ -72,13 +82,23 @@ const Checkout =({ params }) => {
               <label className="label">
                 <span className="label-text">Name</span>
               </label>
-              <input defaultValue={data?.user?.name} type="text" name="name" className="input input-bordered" />
+              <input
+                defaultValue={data?.user?.name}
+                type="text"
+                name="name"
+                className="input input-bordered"
+              />
             </div>
             <div className="form-control">
               <label className="label">
                 <span className="label-text">Date</span>
               </label>
-              <input defaultValue={new Date().toISOString().split("T")[0]} type="date" name="date" className="input input-bordered" />
+              <input
+                defaultValue={new Date().toISOString().split("T")[0]}
+                type="date"
+                name="date"
+                className="input input-bordered"
+              />
             </div>
             <div className="form-control">
               <label className="label">
@@ -137,7 +157,7 @@ const Checkout =({ params }) => {
           </div>
         </form>
       </div>
-    </div >
+    </div>
   );
 };
 
